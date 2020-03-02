@@ -5,8 +5,8 @@ def q1
   names = ["田中", "佐藤", "佐々木", "高橋"]
 
   # 以下に回答を記載
-  names.push("斎藤")
-  print(names)
+  names << "斎藤"
+  p names
 
 end
 
@@ -22,20 +22,16 @@ end
 def q3
   numbers = [1, 5, 8, 10, 2, 3, 2, 3, 3, 1, 4, 5, 9]
   # 以下に回答を記載
-  sum = 0
-  numbers.each do |number|
-    if number == 3
-      sum = sum + 1
-    end
-  end
-  puts sum
+  p numbers.count(3)
 end
 
 def q4
   sports = ["サッカー", "フットサル", nil, "野球", "バスケ", nil, "バレー"]
 
   # 以下に回答を記載
-  puts sports.compact
+
+  sports.compact!
+  p sports
 
 end
 
@@ -63,9 +59,9 @@ end
 
 def q7
   array = ["1", "2", "3", "4", "5"]
-
+  array.map!(&:to_i)
   # 以下に回答を記載
-  p array.map(&:to_i)
+  p array
 end
 
 def q8
@@ -73,7 +69,7 @@ def q8
 
   # 以下に回答を記
   upper_case_programming_languages = programming_languages.map(&:upcase)
-  programming_languages = programming_languages.map(&:capitalize)
+  programming_languages.map!(&:capitalize)
   # 以下は変更しないで下さい
   p programming_languages
   p upper_case_programming_languages
@@ -91,7 +87,7 @@ def q10
 
   # 以下に回答を記載
   foods.each do |food|
-    if food == "うに"
+    if food.include?("うに")
       puts "#{food}　：　好物です"
     else
       puts "#{food}　：　まあまあ好きです"
@@ -104,9 +100,9 @@ def q11
 
   # 以下に回答を記載
   #出力内容を選定
-  sports_after = sports.flatten.uniq
+  sports.flatten!.uniq!
   #出力
-  sports_after.each.with_index(1) do |sport ,i|
+  sports.each.with_index(1) do |sport ,i|
     puts "No#{i} #{sport}"
   end
 end
@@ -122,21 +118,16 @@ def q13
   user_data = { name: "神里", age: 31, address: "埼玉" }
   update_data = { age: 32, address: "沖縄" }
 
-  # 以下に回答を記載
-  update_data.each_key do |key|
-    user_data[key] = update_data[key]
-  end
-  puts user_data
+  user_data.merge!(update_data)
+  p user_data
 end
 
 def q14
   data = { name: "satou", age: 33, address: "saitama", hobby: "soccer", email: "hoge@fuga.com" }
-  keys = []
+
   # 以下に回答を記載
-  data.each_key do |key|
-    keys.push(key)
-  end
-  p keys
+  data_2 = data.keys
+  p data_2
 end
 
 def q15
@@ -146,13 +137,8 @@ def q15
   # 以下に回答を記載
   datas = [data1,data2]
   datas.each do |data|
-    if data.include?(:age) == true
-      puts "OK"
-    else
-      puts "NG"
-    end
+    puts data.include?(:age) ? "OK" : "NG"
   end
-
 end
 
 def q16
@@ -171,23 +157,24 @@ end
 
 class UserQ17
   # 以下に回答を記載
+  attr_accessor :name
+  attr_accessor :age
+  attr_accessor :gender
+  attr_accessor :admin
   def initialize(**user)
-    @name = user[:name]
-    @age = user[:age]
-    @gender = user[:gender]
-    if user[:admin] == true
-      @admin = "有り"
-    else
-      @admin = "無し"
-    end
+    self.name = user[:name]
+    self.age = user[:age]
+    self.gender = user[:gender]
+
+    self.admin= user[:admin] ? "有り" : "無し"
   end
 
   def info
     puts <<~EOS
-    名前：#{@name}
-    年齢：#{@age}
-    性別：#{@gender}
-    管理者権限：#{@admin}
+    名前：#{self.name}
+    年齢：#{self.age}
+    性別：#{self.gender}
+    管理者権限：#{self.admin}
     EOS
   end
 end
@@ -203,19 +190,21 @@ def q17
 end
 
 class UserQ18
+  attr_accessor :name
+  attr_accessor :age
   # 以下に回答を記載
   def initialize(**user)
-      @name = user[:name]
-      @age =user[:age]
+      self.name = user[:name]
+      self.age =user[:age]
   end
   def introduce
-    if @age >= 20
-      puts <<~TEXT
-      こんにちは，#{@name}と申します。宜しくお願いいたします。
+    if self.age >= 20
+      return <<~TEXT
+      こんにちは，#{self.name}と申します。宜しくお願いいたします。
       TEXT
     else
-      puts <<~TEXT
-      はいさいまいど〜，#{@name}です！！！
+      return <<~TEXT
+      はいさいまいど〜，#{self.name}です！！！
       TEXT
     end
   end
@@ -232,10 +221,11 @@ end
 
 class Item
   # 以下を修正して下さい
-
-  def initialize(name)
-    @name = name
+  attr_accessor :name
+  def initialize(name:)
+    self.name = name
   end
+
 end
 
 def q19
@@ -246,12 +236,36 @@ end
 
 class UserQ20
   # 以下に回答を記載
-
+  attr_accessor :name
+  attr_accessor :age
+  def initialize(name: ,age:)
+    self.name = name
+    self.age = age
+  end
 end
 
 class Zoo
   # 以下に回答を記載
+  attr_accessor :name
+  attr_accessor :entry_fee
 
+  def initialize(name:,entry_fee:)
+    self.name = name
+    self.entry_fee = entry_fee
+  end
+
+  def info_entry_fee(user)
+    if user.age >= 0 && user.age <= 5
+      price = self.entry_fee[:infant]
+    elsif user.age >= 6 && user.age <= 12
+      price = self.entry_fee[:children]
+    elsif user.age >= 13 && user.age <= 64
+      price = self.entry_fee[:adult]
+    elsif user.age >= 65 && user.age <= 120
+      price = self.entry_fee[:senior]
+    end
+    puts "#{user.name}さんの入場料金は #{price} 円です。"
+  end
 end
 
 
