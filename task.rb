@@ -50,8 +50,8 @@ def q6
   numbers2 = []
 
   # 以下に回答を記載
-  numbers1.each do |number|
-    numbers2.push(number*10)
+  numbers1.map do |number|
+    numbers2 <<number*10
   end
   p numbers2
 
@@ -157,24 +157,20 @@ end
 
 class UserQ17
   # 以下に回答を記載
-  attr_accessor :name
-  attr_accessor :age
-  attr_accessor :gender
-  attr_accessor :admin
-  def initialize(**user)
-    self.name = user[:name]
-    self.age = user[:age]
-    self.gender = user[:gender]
 
-    self.admin= user[:admin] ? "有り" : "無し"
+  def initialize(user)
+    @name = user[:name]
+    @age = user[:age]
+    @gender = user[:gender]
+    @admin= user[:admin]
   end
 
   def info
     puts <<~EOS
-    名前：#{self.name}
-    年齢：#{self.age}
-    性別：#{self.gender}
-    管理者権限：#{self.admin}
+    名前：#{@name}
+    年齢：#{@age}
+    性別：#{@gender}
+    管理者権限：#{admin = @admin ? "有り" : "無し"}
     EOS
   end
 end
@@ -190,22 +186,16 @@ def q17
 end
 
 class UserQ18
-  attr_accessor :name
-  attr_accessor :age
   # 以下に回答を記載
-  def initialize(**user)
-      self.name = user[:name]
-      self.age =user[:age]
+  def initialize(user)
+      @name = user[:name]
+      @age =user[:age]
   end
   def introduce
-    if self.age >= 20
-      return <<~TEXT
-      こんにちは，#{self.name}と申します。宜しくお願いいたします。
-      TEXT
+    if @age >= 20
+      return "こんにちは，#{@name}と申します。宜しくお願いいたします。"
     else
-      return <<~TEXT
-      はいさいまいど〜，#{self.name}です！！！
-      TEXT
+      return "はいさいまいど〜，#{@name}です！！！"
     end
   end
 end
@@ -219,11 +209,13 @@ def q18
   puts user2.introduce
 end
 
+
+
 class Item
   # 以下を修正して下さい
-  attr_accessor :name
+  attr_reader :name
   def initialize(name:)
-    self.name = name
+    @name = name
   end
 
 end
@@ -234,37 +226,38 @@ def q19
   puts book.name
 end
 
+
+
+
 class UserQ20
   # 以下に回答を記載
-  attr_accessor :name
-  attr_accessor :age
+  attr_reader :name
+  attr_reader :age
   def initialize(name: ,age:)
-    self.name = name
-    self.age = age
+    @name = name
+    @age = age
   end
 end
 
 class Zoo
   # 以下に回答を記載
-  attr_accessor :name
-  attr_accessor :entry_fee
-
   def initialize(name:,entry_fee:)
-    self.name = name
-    self.entry_fee = entry_fee
+    @name = name
+    @entry_fee = entry_fee
   end
 
   def info_entry_fee(user)
-    if user.age >= 0 && user.age <= 5
-      price = self.entry_fee[:infant]
-    elsif user.age >= 6 && user.age <= 12
-      price = self.entry_fee[:children]
-    elsif user.age >= 13 && user.age <= 64
-      price = self.entry_fee[:adult]
-    elsif user.age >= 65 && user.age <= 120
-      price = self.entry_fee[:senior]
+    fee = case user.age
+    when 0..5
+      @entry_fee[:infant]
+    when 6..12
+      @entry_fee[:children]
+    when 13..64
+      @entry_fee[:adult]
+    when 65..120
+      price = @entry_fee[:senior]
     end
-    puts "#{user.name}さんの入場料金は #{price} 円です。"
+    puts "#{user.name}さんの入場料金は #{fee} 円です。"
   end
 end
 
