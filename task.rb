@@ -47,13 +47,10 @@ end
 
 def q6
   numbers1 = [1, 2, 3, 4, 5]
-  numbers2 = []
 
   # 以下に回答を記載
-  numbers1.map do |number|
-    numbers2 <<number*10
-  end
-  p numbers2
+  numbers1.map!{|number| number*10}
+  p numbers1
 
 end
 
@@ -166,11 +163,13 @@ class UserQ17
   end
 
   def info
+    admin = @admin ? '有り' : '無し'
     puts <<~EOS
     名前：#{@name}
     年齢：#{@age}
     性別：#{@gender}
-    管理者権限：#{admin = @admin ? "有り" : "無し"}
+    管理者権限：#{admin}
+
     EOS
   end
 end
@@ -187,7 +186,7 @@ end
 
 class UserQ18
   # 以下に回答を記載
-  def initialize(user)
+  def initialize(**user)
       @name = user[:name]
       @age =user[:age]
   end
@@ -231,8 +230,7 @@ end
 
 class UserQ20
   # 以下に回答を記載
-  attr_reader :name
-  attr_reader :age
+  attr_reader :name , :age
   def initialize(name: ,age:)
     @name = name
     @age = age
