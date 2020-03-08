@@ -17,9 +17,9 @@ class Monster
     end
 end
 
-class Battle
-    brave = Brave.new(hp:200,attack:20,defense:10)
-    monster = Monster.new(hp:300,attack:10,defense:20)
-    # p brave,monster
-    puts brave.print
-end
+# class Battle
+#     brave = Brave.new(hp:200,attack:20,defense:10)
+#     monster = Monster.new(hp:300,attack:10,defense:20)
+#     # p brave,monster
+#     puts brave.print
+# end
