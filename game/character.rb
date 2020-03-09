@@ -1,9 +1,9 @@
 class Character
   attr_accessor :hp
   attr_reader :attack,:defense
-  def initialize(**character)
-    @hp = character[:hp]
-    @attack = character[:attack]
-    @defense = character[:defense]
+  def initialize(**params)
+    @hp = params[:hp]
+    @attack = params[:attack]
+    @defense = params[:defense]
   end
 end
